@@ -13,7 +13,7 @@ jsr MSUCode
 
 // The translation uses the beginning of this slack space.
 // Therefore, let's go further down.
-org $1fA00; base $83fA00
+org $1fB00; base $83fB00
 MSUCode:
 
 ////////////////////////
@@ -296,4 +296,3 @@ db $17
 // Ch 2: Azusa found:
 org $28C94; base $58c94
 db $17,$17,$17,$17,$17,$17,$17,$17
-
