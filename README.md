@@ -15,6 +15,8 @@ Known issues that show how much I care:
 * There may be issues in the sound test.
 
 ## Changelog
+* 1.1:
+	* Now compatible with the translation patch
 * 1.0:
 	* Initial release
 
