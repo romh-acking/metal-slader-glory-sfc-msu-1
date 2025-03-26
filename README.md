@@ -15,6 +15,10 @@ Known issues that show how much I care:
 * There may be issues in the sound test.
 
 ## Changelog
+* 1.2:
+	* Patch is now compatible with FXPAK Pro
+		* Special thanks to mziab for the fix!
+	* Non-MSU track play fix in Chapter 5
 * 1.1:
 	* Now compatible with the translation patch
 * 1.0:
