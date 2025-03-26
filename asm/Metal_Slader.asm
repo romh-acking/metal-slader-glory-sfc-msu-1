@@ -5,6 +5,8 @@ arch snes.cpu
 define songID 						$C5
 define currentlyPlayingSong 		$950
 
+define MSU_STATUS 					$2000
+
 //https://jumbocactuarx27.blogspot.com/2013/08/how-to-enhance-snes-game-with-msu-1.html
 
 org $1d20c; base $83d20c
@@ -13,7 +15,7 @@ jsr MSUCode
 
 // The translation uses the beginning of this slack space.
 // Therefore, let's go further down.
-org $1fB00; base $83fB00
+org $1fA00; base $83fA00
 MSUCode:
 
 ////////////////////////
@@ -38,6 +40,10 @@ beq Pass
 
 // Silkiene's theme #1
 cmp #$f9
+beq Pass
+
+// Jiff's theme
+cmp #$FA
 beq Pass
 
 // Silkiene's theme #2
@@ -87,6 +93,14 @@ sta {currentlyPlayingSong}
 //We set the MSU-1 to play the selected track on repeat.
 lda #$03
 sta $2007
+
+// A common usage for the status port is to lock the SNES CPU after setting an audio track or specifying a seek target on the MSU1 Data file. This is a rather important step to include if you’re aiming to support the MSU1 in hardware.
+// https://helmet.kafuka.org/msu1.htm
+
+ReadyForPlayBack:
+	lda {MSU_STATUS}
+	and #$40
+	bne ReadyForPlayBack
 
 //----------------------
 // Silence SNES music
@@ -273,8 +287,6 @@ db $1B
 // Ch 7: Post Fortress Appear Cutscene
 org $13B640; base $27B640
 db $1B
-
-
 
 ////////////////////////
 // Silence some songs:
