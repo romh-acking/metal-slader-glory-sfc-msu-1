@@ -5,7 +5,11 @@ arch snes.cpu
 define songID 						$C5
 define currentlyPlayingSong 		$950
 
-define MSU_STATUS 					$2000
+define MSU_STATUS 					$002000
+define MSU_ID      					$002002
+define MSU_TRACK					$002004
+define MSU_VOLUME					$002006
+define MSU_CONTROL					$002007
 
 //https://jumbocactuarx27.blogspot.com/2013/08/how-to-enhance-snes-game-with-msu-1.html
 
@@ -74,7 +78,7 @@ beq Ch7Exception
 Pass:
 
 //Check the first letter of the MSU ID (it should be 'S' which is hex 53.)
-lda $2002
+lda {MSU_ID}
 cmp #$53
 
 //If it isn't, we skip over the MSU-1 code.
@@ -82,17 +86,13 @@ bne End
 
 //Set the volume
 lda #$d0
-sta $2006
+sta {MSU_VOLUME}
 
 //We set the track number trackno
 lda {songID}
-sta $2004   
-stz $2005   //The MSU-1 won't play until we set $2005
+sta {MSU_TRACK}
+stz {MSU_TRACK}+1
 sta {currentlyPlayingSong}
-
-//We set the MSU-1 to play the selected track on repeat.
-lda #$03
-sta $2007
 
 // A common usage for the status port is to lock the SNES CPU after setting an audio track or specifying a seek target on the MSU1 Data file. This is a rather important step to include if you’re aiming to support the MSU1 in hardware.
 // https://helmet.kafuka.org/msu1.htm
@@ -101,6 +101,10 @@ ReadyForPlayBack:
 	lda {MSU_STATUS}
 	and #$40
 	bne ReadyForPlayBack
+
+//We set the MSU-1 to play the selected track on repeat.
+lda #$03
+sta {MSU_CONTROL}
 
 //----------------------
 // Silence SNES music
@@ -181,8 +185,6 @@ cmp #$B8
 bne FadeoutEnd
 tay
 
-// Set up stack for switching to the bank for the MSU
-// registers and then back to the original bank.
 lda #$7e
 pha
 lda #$00
