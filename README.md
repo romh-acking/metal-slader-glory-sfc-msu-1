@@ -15,6 +15,8 @@ Known issues that show how much I care:
 * There may be issues in the sound test.
 
 ## Changelog
+* 1.3:
+	* Okay, now the patch is actually compatible with the FXPAK Pro now.
 * 1.2:
 	* Patch is now compatible with FXPAK Pro
 		* Special thanks to mziab for the fix!
@@ -25,4 +27,10 @@ Known issues that show how much I care:
 	* Initial release
 
 ## Credits
-* FCandChill
+* FCandChill:
+	* Hacking
+* mziab:
+	* Helped with bug fix
+* NewerDCD:
+	* Bug report
+	* Real hardware testing
